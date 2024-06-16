@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import app_logo from './../assets/app_logo.jpg'
+import { MyContext } from '../api/mycontext'
 function Navmeeting() {
+  const namecontext = useContext(MyContext);
+  // console.log(namecontext);
   return (
     <>
       <header className="text-gray-600 body-font">
         <div className="container flex flex-wrap flex-col md:flex-row items-center">
           <li className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-            {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-10 h-10 text-white p-2 bg-yellow-500 rounded-full" viewBox="0 0 24 24">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg> */}
             <img alt="logo" className="w-20 h-20" src={app_logo} viewBox="0 0 24 24"></img>
             <span className="ml-3 text-xl">Discussion for sem 6 projects</span>
           </li>
@@ -17,7 +17,7 @@ function Navmeeting() {
             </button>
             
           </nav>
-          <button className="inline-flex items-end bg-blue-300 border-1 py-1.5 px-3.5 rounded-3xl font-bold text-2xl mt-4 ml-10 md:mt-0 mr-10 " >P</button>
+          <button className="inline-flex items-end bg-blue-300 border-1 py-1.5 px-3.5 rounded-3xl font-bold text-2xl mt-4 ml-10 md:mt-0 mr-10 " >{namecontext.name[0]}</button>
         </div>
       </header>
     </>
