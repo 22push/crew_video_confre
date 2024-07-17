@@ -9,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { authToken } from "./roomapi";
 import ReactPlayer from "react-player";
-
+import Controls from "./components/Controls";
 function ParticipantView(props) {
   const micRef = useRef(null);
   const { webcamStream, micStream, webcamOn, micOn, isLocal, displayName } =
@@ -48,10 +48,9 @@ function ParticipantView(props) {
         {micOn ? "ON" : "OFF"}
       </p>
       <audio ref={micRef} autoPlay muted={isLocal} />
-      {webcamOn && (
+      {webcamOn ?
         <ReactPlayer
-          //
-          playsinline // very very imp prop
+          playsinline
           pip={false}
           light={false}
           controls={false}
@@ -65,30 +64,31 @@ function ParticipantView(props) {
           onError={(err) => {
             console.log(err, "participant video error");
           }}
-        />
-      )}
+        /> 
+        :<div className="bg-black h-64 w-64">P</div>
+      }
     </div>
   );
 }
 
-function Controls() {
-  const { leave, toggleMic, toggleWebcam } = useMeeting();
-  return (
-    <div>
-      <button onClick={() => leave()}>Leave</button>
-      <button onClick={() => toggleMic()}>toggleMic</button>
-      <button onClick={() => toggleWebcam()}>toggleWebcam</button>
-    </div>
-  );
-}
+// function Controls() {
+//   const { leave, toggleMic, toggleWebcam } = useMeeting();
+//   return (
+//     <div>
+//       <button onClick={() => leave()}>Leave</button>
+//       <button onClick={() => toggleMic()}>toggleMic</button>
+//       <button onClick={() => toggleWebcam()}>toggleWebcam</button>
+//     </div>
+//   );
+// }
 
 function MeetingView(props) {
-  
+
   const [joined, setJoined] = useState("JOINED");
   const { join } = useMeeting();
   useEffect(() => {
     join();
-  },[]);
+  }, []);
   const { participants } = useMeeting({
     onMeetingJoined: () => {
       setJoined("JOINED");
@@ -106,14 +106,14 @@ function MeetingView(props) {
     <div className="container">
       <h3>Meeting Id: {props.meetingId}</h3>
       {joined && joined === "JOINED" ? (
-        <div>
-          <Controls />
+        <div className="grid grid-rows-4 grid-flow-col gap-4">
           {[...participants.keys()].map((participantId) => (
             <ParticipantView
               participantId={participantId}
               key={participantId}
             />
           ))}
+          <Controls />
         </div>
       ) : joined && joined === "JOINING" ? (
         <p>Joining the meeting...</p>
@@ -128,7 +128,7 @@ function App(props) {
   const meetingId = props.meetingid;
   const navigate = useNavigate()
   const onMeetingLeave = () => {
-    meetingId=null;
+    meetingId = null;
     navigate('/')
   };
 
@@ -140,7 +140,7 @@ function App(props) {
         webcamEnabled: true,
         name: "C.V. Raman",
       }}
-      token={authToken}      
+      token={authToken}
     >
       <MeetingConsumer>
         {() => (
