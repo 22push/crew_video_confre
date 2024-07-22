@@ -6,6 +6,8 @@ import MicOnIcon from "../../Icons/micon";
 import WebcamOffIcon from "../../Icons/camoff";
 import WebcamOnIcon from "../../Icons/camon";
 import { useNavigate } from 'react-router-dom';
+import store from './../../store/store'
+import * as meetingactions from './../../store/actions/meetingaction'
 const JoiningScreen = props => {
     const videoRef = useRef();
     const [micon, setmicon] = useState(false);
@@ -66,6 +68,7 @@ const JoiningScreen = props => {
     };
     function gotomeeting(){
         navigate("/meeting")
+        store.dispatch(meetingactions.addparticipant("Pushkar"))
       }
     return (
         <div className="fixed inset-0">

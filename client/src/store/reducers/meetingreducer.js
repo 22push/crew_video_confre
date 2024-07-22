@@ -3,6 +3,9 @@ const inistate = {
     jointype:"create",
     meetingtoken:"",
     meetingid:"",
+    webcam:"OFF",
+    mic:"OFF",
+    participants:[],
 };
 
 const meetingreducer = (state = inistate,action) =>{
@@ -21,6 +24,21 @@ const meetingreducer = (state = inistate,action) =>{
             return {
                 ...state,
                 meetingid:action.meetingid
+            }
+        case meetingaction.SET_WEBCAM:
+            return {
+                ...state,
+                webcam:action.webcam
+            }
+        case meetingaction.SET_MIC:
+            return {
+                ...state,
+                mic:action.mic
+            }
+        case meetingaction.ADD_PARTICIPANT:
+            return {
+                ...state,
+                participants:[...state.participants, action.participant],
             }
             default:
                 return state;

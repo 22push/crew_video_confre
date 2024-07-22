@@ -7,7 +7,7 @@ import WebcamOffIcon from "../../../Icons/camoff";
 import WebcamOnIcon from "../../../Icons/camon";
 import MicOffIcon from "../../../Icons/micoff";
 import MicOnIcon from "../../../Icons/micon";
-import React from 'react'
+import React, { useState } from 'react'
 import {
     MeetingProvider,
     MeetingConsumer,
@@ -16,16 +16,47 @@ import {
   } from "@videosdk.live/react-sdk";
 function Controls() {
     const { leave, toggleMic, toggleWebcam } = useMeeting();
+    const { enableScreenShare, disableScreenShare, toggleScreenShare } = useMeeting();
+    const [mic ,setmic] = useState("OFF");
+    const [webcam,setwebcam] = useState("OFF");
+    function setwebcamera (){
+      toggleWebcam()
+      if(webcam==="OFF"){
+        setwebcam("ON");
+      }
+      else{
+        setwebcam("OFF");
+      }
+    }
+    function setmicstate(){
+      toggleMic()
+      if(mic==="OFF"){
+        setmic("ON");
+      }
+      else{
+        setmic("OFF");
+      }
+    }
+    const handleToggleScreenShare = () => {
+      toggleScreenShare();
+    };
   return (
     <>
-    <div className="flex flex-row justify-center fixed top-96 left-0 right-0 ">
-        <button className="basis-1/12" onClick={()=>toggleWebcam()}>{1?<WebcamOffIcon/>:<WebcamOnIcon/>}</button>
-        <button className="basis-1/12" onClick={()=>toggleMic()}>{1?<MicOffIcon/>:<MicOnIcon/>}</button>
-        <button className="basis-1/12"><ChatIcon fillcolor="#21130d"/></button>
-        <button className="basis-1/12"><RaiseHandIcon  fillcolor="#21130d"/></button>
-        <button className="basis-1/12"><RecordingIcon  fillcolor="#21130d"/></button>
-        <button className="basis-1/12"><ScreenShareIcon  fillcolor="#21130d"/></button>
-        <button className="basis-1/12"><EndIcon fillcolor="#21130d"/></button>
+    <div className="flex flex-row justify-center fixed bottom-10 left-0 right-96 space-x-12 ">
+        <button className={` rounded-full min-w-auto w-12 h-12 flex items-center justify-center 
+                ${webcam ? "bg-white" : "bg-red-650 text-white"}`} onClick={setwebcamera}>{webcam==="OFF"?<WebcamOffIcon fillcolor="#050A0E"/>:<WebcamOnIcon fillcolor="#050A0E"/>}</button>
+        <button className={` rounded-full min-w-auto w-12 h-12 flex items-center justify-center 
+                ${mic ? "bg-white" : "bg-red-650 text-white"}`}  onClick={setmicstate}>{mic==="OFF"?<MicOffIcon fillcolor="#050A0E"/>:<MicOnIcon fillcolor="#050A0E"/>}</button>
+        {/* <button className={` rounded-full min-w-auto w-12 h-12 flex items-center justify-center 
+                ${mic ? "bg-white" : "bg-red-650 text-white"}`}><ChatIcon fillcolor="#21130d"/></button> */}
+        <button className={` rounded-full min-w-auto w-12 h-12 flex items-center justify-center 
+                ${mic ? "bg-white" : "bg-red-650 text-white"}`}><RaiseHandIcon  fillcolor="#21130d"/></button>
+        <button className={` rounded-full min-w-auto w-12 h-12 flex items-center justify-center 
+                ${mic ? "bg-white" : "bg-red-650 text-white"}`}><RecordingIcon  fillcolor="#21130d"/></button>
+        <button className={` rounded-full min-w-auto w-12 h-12 flex items-center justify-center 
+                ${mic ? "bg-white" : "bg-red-650 text-white"}`} onClick={handleToggleScreenShare}><ScreenShareIcon  fillcolor="#21130d"/></button>
+        <button className={` rounded-full min-w-auto w-12 h-12 flex items-center justify-center 
+                ${mic ? "bg-white" : "bg-red-650 text-white"}`}><EndIcon fillcolor="#21130d"/></button>
     </div>
     </>
   )
